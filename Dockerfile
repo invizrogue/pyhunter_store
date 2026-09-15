@@ -1,19 +1,28 @@
-FROM python:3.14-slim-bookworm AS builder
-
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+FROM python:3.13-alpine
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
+    UV_SYSTEM_PYTHON=1 \
+    UV_PROJECT_ENVIRONMENT=1 \
+    UV_LINK_MODE=copy \
     UV_COMPILE_BYTECODE=1 \
-    UV_LINK_MODE
-    UV_COMPILE_CACHE=1
+    PATH="/app/.venv/bin:$PATH"
 
-RUN uvx install --upgrade pip
+RUN apk add --no-cache \
+    gcc \
+    musl-dev \
+    libffi-dev \
+    postgresql-dev \
+    && pip install --no-cache-dir uv
 
-RUN pip install -r requirements.txt
+WORKDIR /app
 
-FROM python:3.14-slim-bookworm
+COPY pyproject.toml uv.lock ./
 
-COPY --from=builder /uvx /bin/
+RUN uv pip install --no-cache -r pyproject.toml
 
-ENTRYPOINT ["top", "-b"]
+COPY . .
+
+EXPOSE 8000
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
