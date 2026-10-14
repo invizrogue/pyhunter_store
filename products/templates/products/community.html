@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Community | Hop & Barley
+{% endblock %}
+
+{% block content %}
+<main class="static-page-wrapper">
+  <div class="container">
+    <div class="static-page-content">
+      <h1 class="static-page-title">Community</h1>
+      <p class="static-page-subtitle">Coming Soon!</p>
+      <div class="static-page-text">
+          <p>You've landed on a secret territory that is still hidden from view.</p>
+          <p>We're building a place that will soon be buzzing with life, but for now there are only blueprints and plans here.</p>
+      </div>
+      <a href="{% url 'product_list_main' %}" class="button button--primary">Back to Products</a>
+    </div>
+  </div>
+</main>
+{% endblock %}

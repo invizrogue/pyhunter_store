@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Contact | Hop & Barley
+{% endblock %}
+
+{% block content %}
+<main class="static-page-wrapper">
+  <div class="container">
+    <div class="static-page-content">
+      <h1 class="static-page-title">Contact</h1>
+      <p class="static-page-subtitle">Coming Soon!</p>
+      <div class="static-page-text">
+            <p>You're trying to reach us, and we're already busy laying down the lines of communication!</p>
+            <p>While the contact page is under maintenance, we're not hiding — here's where you can find us.</p>
+            <p>Catch us here:</p>
+            <p>📧 Email: [our@email.com]</p>
+            <p>💬 Telegram: [@ourhandle]</p>
+            <p>📱 Phone: [+1 (234) 567-89-00]</p>
+      </div>
+      <a href="{% url 'product_list_main' %}" class="button button--primary">Back to Products</a>
+    </div>
+  </div>
+</main>
+{% endblock %}
