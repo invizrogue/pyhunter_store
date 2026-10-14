@@ -26,7 +26,6 @@ APPS_URLS = [
     path('products/', include('products.urls')),
     path('orders/', include('orders.urls')),
     path('reviews/', include('reviews.urls')),
-    path('api/', include('api.urls')),
 ]
 
 MEDIA_URLS = [
