@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{{ product.name }} | Hop & Barley
+{% endblock %}
+
+{% block content %}
+<main class="page-product">
+  <div class="container">
+    <!-- Product Info Section -->
+    <section class="product-details-section">
+      <div class="product-image-container">
+        <img src="{{ product.image.url }}"
+             alt="{{ product.name }}"
+             class="product-image">
+      </div>
+      <div class="product-info-column">
+        <div class="product-title-price">
+          <h1 class="product-name">{{ product.name }}</h1>
+          <div class="price-section">
+            <span class="price-tag">per 100g</span>
+            <p class="product-price">${{ product.price }}</p>
+          </div>
+        </div>
+        <div class="product-description">
+          {{ product.description }}
+        </div>
+        <!-- Container for managing the cart -->
+        <div class="cart-controls">
+          <!-- Add to Cart button (visible by default) -->
+          <button class="button button--primary add-to-cart-button" id="add-to-cart-btn">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>Add to Cart</span>
+          </button>
+
+          <!-- Quantity counter (hidden by default) -->
+          <div class="quantity-counter is-hidden" id="quantity-counter">
+            <button class="quantity-btn" data-action="decrease" aria-label="Decrease quantity">
+              <i class="fa-solid fa-minus"></i>
+            </button>
+            <span class="quantity-value">1 in cart</span>
+            <button class="quantity-btn" data-action="increase" aria-label="Increase quantity">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Specifications Accordion -->
+    <section class="accordion-section">
+      <div class="accordion-item">
+        <div class="accordion-title">
+          <h3>Technical Specifications</h3>
+          <i class="fa-solid fa-chevron-down accordion-icon"></i>
+        </div>
+        <div class="accordion-content">
+          <ul>
+            <li><strong>Origin:</strong> USA</li>
+            <li><strong>Type:</strong> Aroma (Dual-Purpose)</li>
+            <li><strong>Alpha Acids:</strong> 11.0% - 13.0%</li>
+            <li><strong>Beta Acids:</strong> 3.0% - 4.5%</li>
+            <li><strong>Aroma Profile:</strong> Grapefruit, Lime, Passion Fruit, Lychee, Melon</li>
+            <li><strong>Usage:</strong> Late Kettle Addition, Dry Hopping</li>
+            <li><strong>Recommended Beer Styles:</strong> IPA, Double IPA, Pale Ale, American Wheat</li>
+<!--              {% for key, value in product.specifications.items %}-->
+<!--                <li><strong>{{ key }}:</strong> {{ value }}</li>-->
+<!--              {% endfor %}-->
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Reviews Section -->
+    <section class="reviews-section">
+      <h2 class="reviews-title">Latest reviews</h2>
+      <div class="reviews-grid">
+        {% for review in product.reviews.all %}
+            <div class="review-card">
+              <div class="review-rating">
+                  <i class="fa-solid fa-star"></i>
+                  {% for i in review.get_stars %}
+                      <i class="fas fa-star"></i>
+                  {% endfor %}
+                  {% for i in review.get_empty_stars %}
+                      <i class="far fa-star"></i>
+                  {% endfor %}
+              </div>
+              <div class="review-body">
+                {% if review.heading %}
+                    <h4 class="review-heading">{{ review.heading }}</h4>
+                {% endif %}
+                {% if review.comment %}
+                    <p class="review-text">{{ review.comment }}</p>
+                {% endif %}
+              </div>
+              <div class="review-author">
+<!--                <img src="{{ review.owner.image.url }}" alt="User avatar" class="author-avatar">-->
+                <span class="author-name">{{ review.owner.username }}</span>
+              </div>
+            </div>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</main>
+{% endblock %}

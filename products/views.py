@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, DetailView
 
 from products.models import Product
 
@@ -11,7 +11,7 @@ class ProductList(ListView):
 
 
 class GuidesRecipesView(TemplateView):
-    template_name = 'products/guides-recipes.html'
+    template_name = 'products/guides_recipes.html'
 
 
 class CommunityView(TemplateView):
@@ -24,3 +24,16 @@ class ResourcesView(TemplateView):
 
 class ContactView(TemplateView):
     template_name = 'products/contact.html'
+
+
+class ProductDetailsView(DetailView):
+    template_name = 'products/product_details.html'
+    queryset = (Product.objects.all()
+                .select_related('category')
+                .prefetch_related('reviews'))
+
+    def get_context_data(self, **kwargs):
+        product = Product.objects.get(slug=self.kwargs['slug'])
+        context = super().get_context_data(**kwargs)
+        context['product'] = product
+        return context
