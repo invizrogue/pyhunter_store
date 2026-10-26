@@ -93,6 +93,8 @@
                 <span class="author-name">{{ review.owner.username }}</span>
               </div>
             </div>
+        {% empty %}
+          <p>No reviews yet.</p>
         {% endfor %}
       </div>
     </section>
