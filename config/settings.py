@@ -14,8 +14,11 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 import os
+import sys
 
 load_dotenv('.env.local')
+
+LOGGING_CONFIG = None
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -152,5 +155,31 @@ MEDIA_ROOT = BASE_DIR / 'media'
 MAILERS = {
     'default': {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+    },
+}
+
+LOGGING = {
+    "formats": {
+        "default": "<green>ts={time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>level={level:<8}</level> | <cyan>file={file}</cyan> <cyan>module={module}</cyan> <cyan>func={function}</cyan> <cyan>line={line}</cyan> - <level>{message}</level>",
+    },
+    "sinks": {
+        "console": {
+            "output": sys.stderr,
+            "format": "default",
+            "level": "DEBUG",
+        },
+        "file": {
+            "output": "/path/to/your/log.log",
+            "format": "default",
+            "level": "DEBUG",
+            "rotation": "1 day",
+        },
+    },
+    "loggers": {
+        "dj_loguru": {
+            "sinks": ["console", "file"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
     },
 }
